@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 class UploadForm(Form):
-    example = FileField('File')
+    file_value = FileField('File')
     in_directory = SelectField('Directory', choices=app.config["S3_UPLOAD_DIRECTORY_CHOICES"])
     over_write_existing = BooleanField('Force', default=False)
 
@@ -19,10 +19,10 @@ def upload_page():
     if form.validate_on_submit():
         directory = form.in_directory.data
         over_write = form.over_write_existing.data
-        output = s3_upload(form.example, directory_val=directory, force=over_write)
+        output = s3_upload(form.file_value, directory_val=directory, force=over_write)
         flash(output)
 
-    return render_template('example.html',form=form)
+    return render_template('file_form.html',form=form)
 
 if __name__ == '__main__':
     if app.config["DEBUG"]:

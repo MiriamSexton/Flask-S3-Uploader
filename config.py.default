@@ -5,6 +5,7 @@ S3_KEY = 'YOURAMAZONKEY'
 S3_SECRET = 'YOURAMAZONSECRET'
 S3_UPLOAD_DIRECTORY = 'what_directory_on_s3'
 S3_BUCKET = 's3_bucket_name'
+S3_UPLOAD_DIRECTORY_CHOICES = [('dir_value','friendly name'), ('dir_value', 'friendlyname')]
 
 SECRET_KEY = "FLASK_SECRET_KEY"
 DEBUG = True
