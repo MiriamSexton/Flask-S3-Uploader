@@ -8,7 +8,7 @@ import os
 
 app = Flask(__name__)
 
-if os.environ.get('DEBUG_MODE', True):
+if os.environ.get('DEBUG_MODE', False):
     app.debug = True
 
 app.config["S3_UPLOAD_DIRECTORY_CHOICES"] = os.environ.get('S3_UPLOAD_DIRECTORY_CHOICES',config_defaults.S3_UPLOAD_DIRECTORY_CHOICES)
