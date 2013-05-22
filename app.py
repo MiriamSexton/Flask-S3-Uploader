@@ -28,8 +28,7 @@ class UploadForm(Form):
 
 @app.route('/')
 def nothing_here():
-    return 'Nothing here: %s: (%s)' % (type(app.config["S3_UPLOAD_DIRECTORY_CHOICES"]), app.config["S3_UPLOAD_DIRECTORY_CHOICES"])
-
+    return 'Nothing here.'
 
 @app.route('/upload',methods=['POST','GET'])
 @requires_auth
@@ -45,12 +44,7 @@ def upload_page():
     return render_template('file_form.html',form=form)
 
 if __name__ == '__main__':
-    if app.debug:
-        port = int(os.environ.get('PORT', 5000))
-        host = os.environ.get('HOST', '0.0.0.0')
-        app.run(host=host, port=port)
-    else:
-        port = int(os.environ.get('PORT', 5000))
-        host = os.environ.get('HOST', '0.0.0.0')
-        app.run(host=host, port=port)
+    port = int(os.environ.get('PORT', 5000))
+    host = os.environ.get('HOST', '0.0.0.0')
+    app.run(host=host, port=port)
 
