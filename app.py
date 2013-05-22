@@ -3,12 +3,12 @@ from flask.ext.wtf import FileField, BooleanField, SelectField, Form
 from tools import s3_upload
 from basic_auth import requires_auth
 import config_defaults
-
+import os
 
 
 app = Flask(__name__)
 
-if os.environ.get('DEBUG_MODE', config_defaults.DEBUG_MODE):
+if os.environ.get('DEBUG_MODE', True):
     app.debug = True
 
 app.config["S3_UPLOAD_DIRECTORY_CHOICES"] = os.environ.get('S3_UPLOAD_DIRECTORY_CHOICES',config_defaults.S3_UPLOAD_DIRECTORY_CHOICES)
@@ -28,7 +28,8 @@ class UploadForm(Form):
 
 @app.route('/')
 def nothing_here():
-    return 'Nothing here: %s: (%s)' (type(app.config["S3_UPLOAD_DIRECTORY_CHOICES"]), app.config["S3_UPLOAD_DIRECTORY_CHOICES"])
+    import pdb; pdb.set_trace()
+    return 'Nothing here: %s: (%s)' % (type(app.config["S3_UPLOAD_DIRECTORY_CHOICES"]), app.config["S3_UPLOAD_DIRECTORY_CHOICES"])
 
 
 @app.route('/upload',methods=['POST','GET'])
