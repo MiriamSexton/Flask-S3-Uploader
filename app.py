@@ -28,7 +28,6 @@ class UploadForm(Form):
 
 @app.route('/')
 def nothing_here():
-    import pdb; pdb.set_trace()
     return 'Nothing here: %s: (%s)' % (type(app.config["S3_UPLOAD_DIRECTORY_CHOICES"]), app.config["S3_UPLOAD_DIRECTORY_CHOICES"])
 
 
