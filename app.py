@@ -8,7 +8,7 @@ import config_defaults
 
 app = Flask(__name__)
 
-if os.environ.get('DEBUG_MODE'):
+if os.environ.get('DEBUG_MODE', config_defaults.DEBUG_MODE):
     app.debug = True
 
 app.config["S3_UPLOAD_DIRECTORY_CHOICES"] = os.environ.get('S3_UPLOAD_DIRECTORY_CHOICES',config_defaults.S3_UPLOAD_DIRECTORY_CHOICES)
@@ -45,7 +45,7 @@ def upload_page():
     return render_template('file_form.html',form=form)
 
 if __name__ == '__main__':
-    if app.config["DEBUG"]:
+    if app.debug:
         app.run(host='0.0.0.0')
     else:
         app.run()
