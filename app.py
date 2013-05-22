@@ -2,9 +2,24 @@ from flask import Flask, render_template, flash
 from flask.ext.wtf import FileField, BooleanField, SelectField, Form
 from tools import s3_upload
 from basic_auth import requires_auth
+import config_defaults
+
+
 
 app = Flask(__name__)
-app.config.from_object('config')
+
+if os.environ.get('DEBUG_MODE'):
+    app.debug = True
+
+app.config["S3_UPLOAD_DIRECTORY_CHOICES"] = os.environ.get('S3_UPLOAD_DIRECTORY_CHOICES',config_defaults.S3_UPLOAD_DIRECTORY_CHOICES)
+app.config["S3_KEY"] = os.environ.get("S3_KEY", config_defaults.S3_KEY)
+app.config["S3_SECRET"] = os.environ.get("S3_SECRET", config_defaults.S3_SECRET)
+app.config["S3_UPLOAD_DIRECTORY"] = os.environ.get("S3_UPLOAD_DIRECTORY", config_defaults.S3_UPLOAD_DIRECTORY)
+app.config["S3_BUCKET"] = os.environ.get("S3_BUCKET", config_defaults.S3_BUCKET)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", config_defaults.SECRET_KEY)
+app.config["USERNAME"] = os.environ.get("USERNAME", config_defaults.USERNAME)
+app.config["PASSWORD"] = os.environ.get("PASSWORD", config_defaults.PASSWORD)
+
 
 class UploadForm(Form):
     file_value = FileField('File')
