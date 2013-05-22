@@ -21,8 +21,6 @@ def s3_upload(source_file,acl='public-read', directory_val=None, force=False):
     if directory_val == None:
         directory_val = app.config["S3_UPLOAD_DIRECTORY"]
 
-    import pdb; pdb.set_trace()
-
     source_filename = secure_filename(source_file.data.filename)
     destination_filename = "/".join([directory_val,source_filename])
     url = app.config["S3_LOCATION"] + app.config["S3_BUCKET"] + '/' + destination_filename 
@@ -43,6 +41,7 @@ def s3_upload(source_file,acl='public-read', directory_val=None, force=False):
     sml = b.new_key(destination_filename)
     headers = {'Content-Type': source_file.data.content_type}
 
+    
     sml.set_contents_from_string(source_file.data.read(), headers=headers, replace=force)
     sml.set_acl(acl)
 
