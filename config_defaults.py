@@ -7,7 +7,7 @@ S3_UPLOAD_DIRECTORY = 'what_directory_on_s3'
 S3_BUCKET = 's3_bucket_name'
 
 #[('dir_value','friendly name'), ('dir_value', 'friendlyname')]
-S3_UPLOAD_DIRECTORY_CHOICES = [('','Root'),]
+S3_UPLOAD_DIRECTORY_CHOICES = [('','Root'),('','Root (same as the first)'),]
 
 USERNAME = 'username'
 PASSWORD = 'password'
