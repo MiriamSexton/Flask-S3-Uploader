@@ -8,11 +8,11 @@
     {% endif %}
 {% endwith %}
 
-<form method="POST" enctype="multipart/form-data" action=".">
+<form method="POST" enctype="multipart/form-data" action="/upload">
     {{ form.csrf_token }}
-    Choose where it goes: {{ form.in_directory }}<br/>
-    Choose file: {{ form.file_value }}<br/>
-    Force it to over write existing file: {{ form.over_write_existing }}<br/>
-    <input type="submit" value="Upload">
+    <p>Choose where it goes: {{ form.in_directory }}<br/></p>
+    <p>Choose file: {{ form.file_value }}<br/></p>
+    <p>Force it to over write existing file: {{ form.over_write_existing }}<br/></p>
+    <p><input type="submit" value="Upload"></p>
 </form>
 

@@ -1,4 +1,3 @@
-from uuid import uuid4
 import boto
 import os.path
 from flask import current_app as app
@@ -22,22 +21,31 @@ def s3_upload(source_file,acl='public-read', directory_val=None, force=False):
     if directory_val == None:
         directory_val = app.config["S3_UPLOAD_DIRECTORY"]
 
+    import pdb; pdb.set_trace()
+
     source_filename = secure_filename(source_file.data.filename)
     destination_filename = "/".join([directory_val,source_filename])
+    url = app.config["S3_LOCATION"] + app.config["S3_BUCKET"] + '/' + destination_filename 
+
+    ret_str = ''
 
     # Connect to S3 and upload file.
     conn = boto.connect_s3(app.config["S3_KEY"], app.config["S3_SECRET"])
     b = conn.get_bucket(app.config["S3_BUCKET"])
 
+    # Check to see if it exists
+    if b.get_key(destination_filename):
+        ret_str += 'A file named %s already existed at <a href="%s">%s</a>.' % (source_filename, url, url)
+
+        if not force:
+            return ret_str
+
     sml = b.new_key(destination_filename)
+    headers = {'Content-Type': source_file.data.content_type}
 
-    ret_str = ''
-
-    sml.set_contents_from_string(source_file.data.read(), replace=force)
+    sml.set_contents_from_string(source_file.data.read(), headers=headers, replace=force)
     sml.set_acl(acl)
 
-    url = app.config["S3_LOCATION"] + app.config["S3_BUCKET"] + '/' + destination_filename 
-
-    ret_str += 'See the file at <a href="%s">%s</a>' % (url, url)
+    ret_str += 'See the new file at <a href="%s">%s</a>' % (url, url)
 
     return ret_str

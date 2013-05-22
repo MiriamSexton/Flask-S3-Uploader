@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash
 from flask.ext.wtf import FileField, BooleanField, SelectField, Form
 from tools import s3_upload
+from basic_auth import requires_auth
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -10,9 +11,13 @@ class UploadForm(Form):
     in_directory = SelectField('Directory', choices=app.config["S3_UPLOAD_DIRECTORY_CHOICES"])
     over_write_existing = BooleanField('Force', default=False)
 
+@app.route('/')
+def nothing_here():
+    return 'Nothing here.'
 
 
-@app.route('/',methods=['POST','GET'])
+@app.route('/upload',methods=['POST','GET'])
+@requires_auth
 def upload_page():
     form = UploadForm()
 
