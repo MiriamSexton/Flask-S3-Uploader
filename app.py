@@ -29,7 +29,7 @@ class UploadForm(Form):
 
 @app.route('/')
 def nothing_here():
-    return 'Nothing here. location: %s bucket: %s' % (app.config["S3_LOCATION"], app.config["S3_BUCKET"])
+    return 'Nothing here.'
 
 @app.route('/upload',methods=['POST','GET'])
 @requires_auth
