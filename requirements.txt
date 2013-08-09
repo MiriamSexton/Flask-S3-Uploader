@@ -3,3 +3,4 @@ flask-wtf
 boto
 Werkzeug
 Jinja2
+PIL
