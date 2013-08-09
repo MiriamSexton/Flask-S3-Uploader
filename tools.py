@@ -3,6 +3,8 @@ import os.path
 from flask import current_app as app
 from werkzeug import secure_filename
 
+
+
 def s3_upload(source_file,acl='public-read', directory_val=None, force=False):
     ''' Uploads WTForm File Object to Amazon S3
 
@@ -48,3 +50,5 @@ def s3_upload(source_file,acl='public-read', directory_val=None, force=False):
     ret_str += 'See the new file at <a href="%s">%s</a>' % (url, url)
 
     return ret_str
+
+

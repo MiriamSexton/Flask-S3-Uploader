@@ -1,18 +1,40 @@
-{% with messages = get_flashed_messages() %}
+<html>
+<head>
+    <title>Upload to Amazon</title>
+</head>
+<body>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-        <ul class=flashes>
-            {% for message in messages %}
-                <li>{{ message|safe }}</li>
-            {% endfor %}
-        </ul>
+        {% for category, message in messages %}
+            <div {% if category == 'error' %}style="background-color:#FF9999;border: 3px solid red;" {% endif %}>{{ message|safe }}</div>
+        {% endfor %}
     {% endif %}
 {% endwith %}
 
 <form method="POST" enctype="multipart/form-data" action="/upload">
     {{ form.csrf_token }}
     <p>Choose where it goes: {{ form.in_directory }}<br/></p>
+
     <p>Choose file: {{ form.file_value }}<br/></p>
+
+    {% if show_height %}
+        <p>Max Height (in pixels): {{form.max_height}}</p>
+    {% endif %}
+    {% if show_width %}
+        <p>Max Width (in pixels): {{form.max_width}}</p>        
+    {% endif %}
+    {% if show_size %}
+        <p>Max Size (in KB): {{form.max_size}}</p>
+    {% endif %}
+
     <p>Force it to over write existing file: {{ form.over_write_existing }}<br/></p>
+
+
     <p><input type="submit" value="Upload"></p>
 </form>
 
+
+
+</body>
+</html>
