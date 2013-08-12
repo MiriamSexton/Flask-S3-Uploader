@@ -5,7 +5,7 @@ from werkzeug import secure_filename
 
 
 
-def s3_upload(source_file,acl='public-read', directory_val=None, force=False):
+def s3_upload(file_obj, new_filename, content_type, acl='public-read', directory_val=None, force=False):
     ''' Uploads WTForm File Object to Amazon S3
 
         Expects following app.config attributes to be set:
@@ -23,8 +23,10 @@ def s3_upload(source_file,acl='public-read', directory_val=None, force=False):
     if directory_val == None:
         directory_val = app.config["S3_UPLOAD_DIRECTORY"]
 
-    source_filename = secure_filename(source_file.data.filename)
-    destination_filename = "/".join([directory_val,source_filename])
+
+
+    upload_filename = secure_filename(new_filename)
+    destination_filename = "/".join([directory_val,upload_filename])
     url = app.config["S3_LOCATION"] + app.config["S3_BUCKET"] + '/' + destination_filename 
 
     ret_str = ''
@@ -41,10 +43,10 @@ def s3_upload(source_file,acl='public-read', directory_val=None, force=False):
             return ret_str
 
     sml = b.new_key(destination_filename)
-    headers = {'Content-Type': source_file.data.content_type}
+    headers = {'Content-Type': content_type}
 
     
-    sml.set_contents_from_string(source_file.data.read(), headers=headers, replace=force)
+    sml.set_contents_from_string(file_obj.read(), headers=headers, replace=force)
     sml.set_acl(acl)
 
     ret_str += 'See the new file at <a href="%s">%s</a>' % (url, url)

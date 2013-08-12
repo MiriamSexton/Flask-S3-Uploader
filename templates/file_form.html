@@ -1,6 +1,20 @@
 <html>
 <head>
     <title>Upload to Amazon</title>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $("#resize_values").hide();
+
+            $("#resize").change(function(event){
+                if ($(this).is(':checked')) {
+                    $("#resize_values").show();
+                } else {
+                    $("#resize_values").hide();
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 
@@ -13,19 +27,32 @@
 {% endwith %}
 
 <form method="POST" enctype="multipart/form-data" action="/upload">
-    {{ form.csrf_token }}
-    <p>Choose where it goes: {{ form.in_directory }}<br/></p>
+    {{ form.hidden_tag() }}
 
-    <p>Choose file: {{ form.file_value }}<br/></p>
+    <p>{{form.in_directory.label}} {{ form.in_directory }}<br/></p>
 
+    <p>{{form.file_value.label}}: {{ form.file_value }}<br/></p>
+
+        Cannot get this to work yet    
+      <p>{{form.save_as_png.label}}: {{form.save_as_png}}</p>
+    {# 
+    #}
+
+    <p>{{form.resize.label}}: {{form.resize}}</p>
+    <p id="resize_values" style="padding-left:5em;">
+        {{form.resize_height.label}}: {{form.resize_height}}<br/>
+        {{form.resize_width.label}}: {{form.resize_width}}<br/>
+    </p>
+
+    
     {% if show_height %}
-        <p>Max Height (in pixels): {{form.max_height}}</p>
+        <p>{{form.max_height.label}}: {{form.max_height}}</p>
     {% endif %}
     {% if show_width %}
-        <p>Max Width (in pixels): {{form.max_width}}</p>        
+        <p>{{form.max_width.label}}: {{form.max_width}}</p>        
     {% endif %}
     {% if show_size %}
-        <p>Max Size (in KB): {{form.max_size}}</p>
+        <p>{{form.max_size.label}}: {{form.max_size}}</p>
     {% endif %}
 
     <p>Force it to over write existing file: {{ form.over_write_existing }}<br/></p>
